@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';  // Importando o pacote de logging
-
+import 'package:logging/logging.dart';  
 void main() {
   runApp(MyApp());
-  _setupLogging(); // Configurar logging
+  _setupLogging(); 
 }
 
-// Configuração do Logger
+
+final Logger _logger = Logger('GetAllCheckListModelsDTO');  
+
 void _setupLogging() {
-  Logger.root.level = Level.ALL; // Nível do logger (ALL vai registrar tudo)
+  Logger.root.level = Level.ALL; 
   Logger.root.onRecord.listen((record) {
-    // Registra a mensagem de log com o nível, data/hora e o texto
-    print('${record.level.name}: ${record.time}: ${record.message}');
+    
+    _logger.info('${record.level.name}: ${record.time}: ${record.message}');
   });
 }
 
@@ -31,14 +32,10 @@ class GetAllCheckListModelsDTO extends StatefulWidget {
   const GetAllCheckListModelsDTO({super.key});
 
   @override
-  _GetAllCheckListModelsDTOState createState() =>
-      _GetAllCheckListModelsDTOState();
+  GetAllCheckListModelsDTOState createState() => GetAllCheckListModelsDTOState();
 }
 
-class _GetAllCheckListModelsDTOState extends State<GetAllCheckListModelsDTO> {
-  // Instanciando o Logger
-  final Logger _logger = Logger('GetAllCheckListModelsDTO');
-
+class GetAllCheckListModelsDTOState extends State<GetAllCheckListModelsDTO> {
   bool isAuthenticated = true;
   String greeting = "Olá, usuário";
   String profileImageUrl = 'https://www.example.com/your-profile-image.jpg';
@@ -53,60 +50,62 @@ class _GetAllCheckListModelsDTOState extends State<GetAllCheckListModelsDTO> {
     "Item 8",
   ];
 
+  
+  final TextEditingController _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
+        preferredSize: Size.fromHeight(150.0), 
         child: AppBar(
           backgroundColor: Colors.black,
           leading: IconButton(
             icon: Icon(Icons.qr_code, color: Colors.white),
             onPressed: () {
-              // Usando o Logger para registrar o evento
               _logger.info('QR Code Pressionado');
             },
           ),
           flexibleSpace: Padding(
             padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            child: Container(
-              padding: EdgeInsets.all(8),
-              child: Row(
-                children: [
-                  isAuthenticated
-                      ? Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 25,
-                              backgroundImage: NetworkImage(profileImageUrl),
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              greeting,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        )
-                      : Text(
-                          "Faça login",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                  Spacer(),
-                  Icon(
-                    Icons.arrow_forward,
-                    color: Colors.white,
+            child: Column(
+              children: [
+                
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  child: TextField(
+                    controller: _searchController,
+                    decoration: InputDecoration(
+                      hintText: "Pesquisar...",
+                      hintStyle: TextStyle(color: Colors.white),
+                      prefixIcon: Icon(Icons.search, color: Colors.white),  
+                      filled: true,
+                      fillColor: Colors.grey[800],
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0), 
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
-                ],
-              ),
+                ),
+                // Botão redondo com ícone de "cone sanduíche"
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      icon: Icon(Icons.menu, color: Colors.white),  
+                      onPressed: () {
+                        _logger.info('Menu Pressionado');
+                      },
+                      iconSize: 30.0, 
+                      splashRadius: 25.0, 
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
