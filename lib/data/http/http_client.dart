@@ -20,6 +20,7 @@ class HttpClient implements IHttpClient {
   Future<http.Response> post({required String url, required String body}) async {
     final response = await client.post(
       Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},  // Cabeçalho para indicar JSON
       body: body,
     );
     return response;
@@ -29,6 +30,7 @@ class HttpClient implements IHttpClient {
   Future<http.Response> put({required String url, required String body}) async {
     final response = await client.put(
       Uri.parse(url),
+      headers: {'Content-Type': 'application/json'},  // Cabeçalho para indicar JSON
       body: body,
     );
     return response;
