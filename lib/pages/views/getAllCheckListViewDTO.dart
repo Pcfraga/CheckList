@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';  
+import 'package:logging/logging.dart';
+import 'package:myapp/data/http/http_client.dart';
+import 'package:myapp/data/models/getAllCheckList_model.dart';
+import 'package:myapp/data/repository/getAllCheckList_repository.dart';  
 
 void main() {
   runApp(MyApp());
@@ -22,62 +25,77 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'My App',
-      home: GetAllCheckListModelsDTO(),
+      home: GetAllCheckListModelsView(),
     );
   }
 }
 
-class GetAllCheckListModelsDTO extends StatefulWidget {
-  const GetAllCheckListModelsDTO({super.key});
+class GetAllCheckListModelsView extends StatefulWidget {
+  const GetAllCheckListModelsView({super.key});
 
   @override
   GetAllCheckListModelsDTOState createState() => GetAllCheckListModelsDTOState();
 }
 
-class GetAllCheckListModelsDTOState extends State<GetAllCheckListModelsDTO> {
+class GetAllCheckListModelsDTOState extends State<GetAllCheckListModelsView> {
   bool isAuthenticated = true;
   String greeting = "Olá, usuário";
   String profileImageUrl = 'https://www.example.com/your-profile-image.jpg';
-  
-  // Lista de itens
-  List<String> listItems = [
-    "QSMS",
-    "MEIO AMBIENTE",
-    "SEGURANÇA",
-    "QUALIDADE",
-    "SAÚDE",
-    "COMUNICAÇÃO",
-    "ADMINISTRAÇÃO",
-    "GERÊNCIA",
-  ];
 
-  // Controlador para o campo de busca (para GET)
+  // Lista de itens que será preenchida com dados da API
+  List<GetAllCheckListModelsDTO> checkLists = [];
+
+  // Controlador para o campo de busca
   final TextEditingController _searchController = TextEditingController();
+
+  // Instanciando o HttpClient (IHttpClient)
+  final HttpClient httpClient = HttpClient(); // Criando a instância do HttpClient
+
+  late final GetAllCheckListRepository checkListRepository; // Usando `late` para inicializar no construtor
+
+  @override
+  void initState() {
+    super.initState();
+    // Inicializando o AreaRepository dentro do initState
+    checkListRepository = GetAllCheckListRepository(httpClient); // Passando o httpClient para o repositório
+    _loadcheckList(); // Carregar as áreas na inicialização
+  }
+
+  // Função para carregar as áreas da API
+  Future<void> _loadcheckList() async {
+    try {
+      List<GetAllCheckListModelsDTO> fetchedcheckLists = await checkListRepository.getAllCheckList();
+      setState(() {
+        checkLists = fetchedcheckLists; // Atualiza a lista de áreas
+      });
+    } catch (e) {
+      // Em caso de erro, logar ou mostrar uma mensagem para o usuário
+      print('Erro ao carregar checkLists: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(150.0), 
+        preferredSize: Size.fromHeight(150.0),
         child: AppBar(
           backgroundColor: Colors.black,
           actions: [
-            // Mover o QR Code para a direita, no 'actions'
             IconButton(
               icon: Icon(Icons.qr_code, color: Colors.white),
               onPressed: () {
                 _logger.info('QR Code Pressionado');
               },
             ),
-            // Botão redondo com ícone de "cone sanduíche"
             IconButton(
-              icon: Icon(Icons.menu, color: Colors.white),  
+              icon: Icon(Icons.menu, color: Colors.white),
               onPressed: () {
                 _logger.info('Menu Pressionado');
               },
-              iconSize: 30.0, 
-              splashRadius: 25.0, 
+              iconSize: 30.0,
+              splashRadius: 25.0,
             ),
           ],
           flexibleSpace: Padding(
@@ -91,18 +109,17 @@ class GetAllCheckListModelsDTOState extends State<GetAllCheckListModelsDTO> {
                     decoration: InputDecoration(
                       hintText: "Pesquisar...",
                       hintStyle: TextStyle(color: Colors.white),
-                      prefixIcon: Icon(Icons.search, color: Colors.white),  
+                      prefixIcon: Icon(Icons.search, color: Colors.white),
                       filled: true,
                       fillColor: Colors.grey[800],
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0), 
+                        borderRadius: BorderRadius.circular(30.0),
                         borderSide: BorderSide.none,
                       ),
                     ),
                     style: TextStyle(color: Colors.white),
                     onChanged: (value) {
-                      // Realizar a ação de GET aqui com o valor digitado
-                      // Por exemplo: chamar a API com o valor de 'value'
+                      // Realizar a busca com o valor digitado
                     },
                   ),
                 ),
@@ -111,9 +128,10 @@ class GetAllCheckListModelsDTOState extends State<GetAllCheckListModelsDTO> {
           ),
         ),
       ),
-      body: Column(
+      body:
+      
+       Column(
         children: [
-          // Título centralizado acima da lista
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Text(
@@ -126,10 +144,9 @@ class GetAllCheckListModelsDTOState extends State<GetAllCheckListModelsDTO> {
             ),
           ),
           
-          // Lista de itens (não editáveis)
           Expanded(
             child: ListView.builder(
-              itemCount: listItems.length,
+              itemCount: checkLists.length, // Usar o tamanho da lista 'areas' que foi preenchida
               itemBuilder: (context, index) {
                 return Container(
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -141,15 +158,14 @@ class GetAllCheckListModelsDTOState extends State<GetAllCheckListModelsDTO> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Box com título de cada item com cantos arredondados
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                         decoration: BoxDecoration(
-                          color: Colors.grey[700], // Cor de fundo do box
-                          borderRadius: BorderRadius.circular(12), // Cantos arredondados
+                          color: Colors.grey[700],
+                          borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          listItems[index],
+                          checkLists[index].title, // Exibir o nome da área
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,
@@ -166,6 +182,7 @@ class GetAllCheckListModelsDTOState extends State<GetAllCheckListModelsDTO> {
           ),
         ],
       ),
+
     );
   }
 }

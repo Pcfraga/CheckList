@@ -8,22 +8,25 @@ class GetAllCheckListRepository {
   GetAllCheckListRepository(this.httpClient);
 
   // Buscar todos os CheckLists
-  Future<List<GetAllCheckListModelsDTO>> getAllCheckList(String url) async {
-    final response = await httpClient.get(url: url);
+  Future<List<GetAllCheckListModelsDTO>> getAllCheckList() async {
+    final response = await httpClient.get(url: "/ChecklistModels");
 
     if (response.statusCode == 200) {
       final List<GetAllCheckListModelsDTO> checkLists = [];
       final body = jsonDecode(response.body);
-
-      if (body['getAllCheckList'] != null) {
-        for (var item in body['getAllCheckList']) {
+      print("Helow $body");
+      if (body is List) {
+        for (var item in body) {
+          print(item);
           checkLists.add(GetAllCheckListModelsDTO.fromMap(item));
         }
       }
 
       return checkLists;
     } else {
-      throw Exception('Falha ao carregar getAllCheckList: ${response.statusCode}');
+      throw Exception(
+        'Falha ao carregar getAllCheckList: ${response.statusCode}',
+      );
     }
   }
 
@@ -40,27 +43,33 @@ class GetAllCheckListRepository {
         throw Exception('getAllCheckList não encontrado');
       }
     } else {
-      throw Exception('Falha ao buscar getAllCheckList: ${response.statusCode}');
+      throw Exception(
+        'Falha ao buscar getAllCheckList: ${response.statusCode}',
+      );
     }
   }
 
   // Adicionar CheckList
   Future<void> addCheckList(String url, Map<String, dynamic> bodyMap) async {
-    final body = jsonEncode(bodyMap);  // Codifica o corpo como JSON
+    final body = jsonEncode(bodyMap); // Codifica o corpo como JSON
     final response = await httpClient.post(url: url, body: body);
 
     if (response.statusCode != 200) {
-      throw Exception('Falha ao adicionar getAllCheckList: ${response.statusCode}');
+      throw Exception(
+        'Falha ao adicionar getAllCheckList: ${response.statusCode}',
+      );
     }
   }
 
   // Editar CheckList
   Future<void> editCheckList(String url, Map<String, dynamic> bodyMap) async {
-    final body = jsonEncode(bodyMap);  // Codifica o corpo como JSON
+    final body = jsonEncode(bodyMap); // Codifica o corpo como JSON
     final response = await httpClient.put(url: url, body: body);
 
     if (response.statusCode != 200) {
-      throw Exception('Falha ao editar getAllCheckList: ${response.statusCode}');
+      throw Exception(
+        'Falha ao editar getAllCheckList: ${response.statusCode}',
+      );
     }
   }
 
@@ -69,7 +78,9 @@ class GetAllCheckListRepository {
     final response = await httpClient.delete(url: url);
 
     if (response.statusCode != 200) {
-      throw Exception('Falha ao deletar getAllCheckList: ${response.statusCode}');
+      throw Exception(
+        'Falha ao deletar getAllCheckList: ${response.statusCode}',
+      );
     }
   }
 }

@@ -1,20 +1,19 @@
 class GetAllCheckListModelsDTO {
   final String title;
-  final String areaid;
-  final String areaname;
+  final String areaId;
+  final String areaName;
 
   GetAllCheckListModelsDTO({
     required this.title,
-    required this.areaid,
-    required this.areaname,
+    required this.areaId,
+    required this.areaName,
   });
 
   factory GetAllCheckListModelsDTO.fromMap(Map<String, dynamic> map) {
     return GetAllCheckListModelsDTO(
       title: map['title'],
-      areaid: map['areaid'],
-      areaname: map['areaname'],
+      areaId: map['areaId'],
+      areaName: map['areaName'],
     );
   }
-  }
-
+}

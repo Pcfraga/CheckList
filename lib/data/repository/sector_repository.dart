@@ -5,11 +5,12 @@ import 'package:myapp/data/models/sector_model.dart';
 class SectorRepository {
   final IHttpClient httpClient;
 
+ 
   SectorRepository(this.httpClient);
 
   // Buscar todos os setores
-  Future<List<SectorModel>> getAllSectors(String url) async {
-    final response = await httpClient.get(url: url);
+  Future<List<SectorModel>> getAllSectors() async {
+    final response = await httpClient.get(url: "/sectors");
 
     if (response.statusCode == 200) {
       final List<SectorModel> sectors = [];
@@ -28,14 +29,13 @@ class SectorRepository {
     }
   }
 
-  // Buscar um setor 
+  // Buscar um setor
   Future<SectorModel> getSectorById(String url) async {
     final response = await httpClient.get(url: url);
 
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
 
-     
       if (body != null) {
         return SectorModel.fromMap(body);
       } else {

@@ -5,10 +5,17 @@ import 'package:myapp/data/models/area_model.dart';
 class AreaRepository {
   final IHttpClient httpClient;
 
+  // URL base para o endpoint "areas"
+  final String baseUrl =
+      'https://solvo-checklist-api.azurewebsites.net/api/areas';
+
   AreaRepository(this.httpClient);
 
-  Future<List<AreaModel>> getAllAreas(String url) async {
-    final response = await httpClient.get(url: url);
+  // Método para buscar todas as áreas
+  Future<List<AreaModel>> getAllAreas() async {
+    final response = await httpClient.get(
+      url: baseUrl,
+    ); // A URL completa é usada aqui
 
     if (response.statusCode == 200) {
       final List<AreaModel> areas = [];
@@ -26,7 +33,9 @@ class AreaRepository {
     }
   }
 
-  Future<AreaModel> getAreaById(String url) async {
+  // Método para buscar área por ID
+  Future<AreaModel> getAreaById(String areaId) async {
+    final url = '$baseUrl/$areaId'; // Concatena o ID da área com a URL base
     final response = await httpClient.get(url: url);
 
     if (response.statusCode == 200) {
@@ -42,24 +51,37 @@ class AreaRepository {
     }
   }
 
-  Future<void> addArea(String url, String body) async {
-    final response = await httpClient.post(url: url, body: body);
+  // Método para adicionar uma nova área
+  Future<void> addArea(String body) async {
+    final response = await httpClient.post(
+      url: baseUrl,
+      body: body,
+    ); // Usa a URL base para o POST
 
     if (response.statusCode != 200) {
       throw Exception('Falha ao adicionar área: ${response.statusCode}');
     }
   }
 
-  Future<void> editArea(String url, String body) async {
-    final response = await httpClient.put(url: url, body: body);
+  // Método para editar uma área existente
+  Future<void> editArea(String areaId, String body) async {
+    final url = '$baseUrl/$areaId'; // Concatena o ID da área com a URL base
+    final response = await httpClient.put(
+      url: url,
+      body: body,
+    ); // Usa a URL completa para o PUT
 
     if (response.statusCode != 200) {
       throw Exception('Falha ao editar área: ${response.statusCode}');
     }
   }
 
-  Future<void> deleteArea(String url) async {
-    final response = await httpClient.delete(url: url);
+  // Método para deletar uma área
+  Future<void> deleteArea(String areaId) async {
+    final url = '$baseUrl/$areaId'; // Concatena o ID da área com a URL base
+    final response = await httpClient.delete(
+      url: url,
+    ); // Usa a URL completa para o DELETE
 
     if (response.statusCode != 200) {
       throw Exception('Falha ao deletar área: ${response.statusCode}');
