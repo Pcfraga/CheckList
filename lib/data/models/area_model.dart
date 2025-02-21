@@ -2,6 +2,7 @@ class AreaModel {
   final String title;
   final String areaid;
   final String areaname;
+  
 
   AreaModel({
     required this.title,
