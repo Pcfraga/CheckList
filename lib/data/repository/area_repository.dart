@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:myapp/data/http/http_client.dart';
-import 'package:myapp/data/models/area_model.dart';
+import 'package:checklist/data/http/http_client.dart';
+import 'package:checklist/data/models/area_model.dart';
 
 class AreaRepository {
   final IHttpClient httpClient;

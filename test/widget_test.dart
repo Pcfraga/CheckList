@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myapp/pages/views/getAllCheckListViewDTO.dart';
+import 'package:checklist/pages/views/getAllCheckListViewDTO.dart';
 
 
 void main() {

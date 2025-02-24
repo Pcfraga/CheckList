@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:myapp/data/models/loginView_model.dart';
+import 'package:checklist/data/models/loginView_model.dart';
 
 class LoginViewRepository {
   final String apiUrl =

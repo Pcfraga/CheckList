@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:myapp/data/http/http_client.dart';
-import 'package:myapp/data/models/sector_model.dart';
+import 'package:checklist/data/http/http_client.dart';
+import 'package:checklist/data/models/sector_model.dart';
 
 class SectorRepository {
   final IHttpClient httpClient;
