@@ -5,7 +5,6 @@ import 'package:checklist/data/models/sector_model.dart';
 class SectorRepository {
   final IHttpClient httpClient;
 
- 
   SectorRepository(this.httpClient);
 
   // Buscar todos os setores

@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+
+
+class AppColors {
+  // Cores principais
+  static const Color primaryOrange = Color.fromRGBO(204, 34, 0, 1); // #CC2200 (laranja)
+  static const Color primaryBlue = Color.fromRGBO(0, 115, 153, 1); // #007399 (azul)
+
+  // Cores de fundo claras
+  static const Color backgroundLight = Color.fromRGBO(242, 242, 242, 1); // #F2F2F2 (cinza claro)
+  static const Color backgroundLight2 = Color.fromRGBO(255, 245, 247, 1); // #FFF5F7 (rosa claro)
+
+  // Cores de fundo escuras
+  static const Color backgroundDark1 = Color.fromRGBO(25, 25, 25, 1); // #191919 (cinza escuro)
+  static const Color backgroundDark2 = Color.fromRGBO(32, 32, 32, 1); // #202020 (cinza escuro)
+  static const Color backgroundDark3 = Color.fromRGBO(38, 38, 38, 1); // #262626 (cinza escuro)
+
+  // Cores de fundo intermediárias
+  static const Color backgroundGrey = Color.fromRGBO(128, 128, 128, 1); // #808080 (cinza médio)
+  static const Color backgroundGreyLight = Color.fromRGBO(166, 166, 166, 1); // #A6A6A6 (cinza claro)
+  static const Color backgroundGreyVeryLight = Color.fromRGBO(217, 217, 217, 1); // #D9D9D9 (cinza muito claro)
+
+  // Cores de destaque
+  static const Color highlightGreen = Color.fromRGBO(5, 199, 70, 1); // #05C746 (verde)
+  static const Color highlightYellow = Color.fromRGBO(229, 216, 0, 1); // #E5D800 (amarelo)
+
+  // Cores neutras
+  static const Color neutralBlack = Color.fromRGBO(0, 0, 0, 1); // #000000 (preto)
+  static const Color neutralWhite = Color.fromRGBO(255, 255, 255, 1); // #FFFFFF (branco)
+}

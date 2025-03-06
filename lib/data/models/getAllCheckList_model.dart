@@ -19,4 +19,8 @@ class GetAllCheckListModelsDTO {
       revisionNumber: map['revisionNumber'],
     );
   }
+
+  get totalItems => null;
+
+  get id => null;
 }

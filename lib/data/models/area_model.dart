@@ -2,7 +2,6 @@ class AreaModel {
   final String title;
   final String areaid;
   final String areaname;
-  
 
   AreaModel({
     required this.title,
@@ -17,5 +16,4 @@ class AreaModel {
       areaname: map['areaname'],
     );
   }
-  }
-
+}
